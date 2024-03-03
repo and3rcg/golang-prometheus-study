@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  # Compose file obtained from https://github.com/cosmtrek/air#installation-and-usage-for-docker-users-who-dont-want-to-use-air-image
+  web:
+    build:
+      context: .
+      # Correct the path to your Dockerfile
+      dockerfile: Dockerfile
+    ports:
+      - 4000:4000
+    # Important to bind/mount your codebase dir to /app dir for live reload
+    volumes:
+      - ./:/app
+  
+  prometheus:
+    image: prom/prometheus
+    user: root
+    restart: unless-stopped
+    volumes:
+      - ./prometheus/config:/etc/prometheus  # make sure the right hand side path is the same as in the --config.file flag
+      - ./prometheus/data:/prometheus  # make sure the right hand side path is the same as in the --storage.tsdb.path flag
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - 9090:9090
+    depends_on:
+      - web
+  
+  # portainer:
+  #   image: portainer/portainer-ce:latest
+  #   ports:
+  #     - 9443:9443
+  #   volumes:
+  #     - portainer_data:/data
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.0.11
+    # container_name: grafana
+    # hostname: grafana
+    environment:
+      -  GF_SECURITY_ADMIN_PASSWORD=admin
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus

@@ -1,0 +1,1 @@
+instalar atlas: curl -sSf https://atlasgo.sh | sh
