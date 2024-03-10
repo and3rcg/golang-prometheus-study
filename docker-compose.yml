@@ -27,7 +27,7 @@ services:
       - db
 
   prometheus:
-    image: prom/prometheus:2.50.1
+    image: prom/prometheus
     user: root
     restart: unless-stopped
     volumes:
@@ -40,15 +40,6 @@ services:
       - 9090:9090
     depends_on:
       - web
-
-  # portainer:
-  #   image: portainer/portainer-ce:latest
-  #   ports:
-  #     - 9443:9443
-  #   volumes:
-  #     - portainer_data:/data
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   restart: unless-stopped
 
   grafana:
     image: grafana/grafana:10.0.11
@@ -63,4 +54,3 @@ services:
 volumes:
   postgres_data:
   prometheus_data:
-  # portainer_data:

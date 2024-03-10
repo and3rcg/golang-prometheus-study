@@ -1,3 +1,7 @@
+// this is a file that sets up a load test with Grafana K6
+// more info: https://grafana.com/docs/k6/latest/get-started/running-k6/
+// in order to run this, install k6 in your machine and run "k6 run k6-load-test.js"
+
 import http from 'k6/http';
 import { sleep } from 'k6';
 
@@ -5,7 +9,7 @@ export const options = {
   // A number specifying the number of VUs to run concurrently.
   vus: 10,
   // A string specifying the total duration of the test run.
-  duration: '5s',
+  duration: '20s',
 
   // The following section contains configuration options for execution of this
   // test script in Grafana Cloud.
@@ -56,6 +60,15 @@ export const options = {
 // about authoring k6 scripts.
 //
 export default function() {
-  http.get('http://localhost:4000/api/v1/metrics_testing/random_sleep');
+  http.post('http://localhost:4000/api/v1/metrics_testing/echo',{
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    json: {
+      message: 'Hello World!'
+    }
+  });
+
+  http.get("http://localhost:4000/api/v1/metrics_testing/trigger/ok")
   sleep(1);
 }

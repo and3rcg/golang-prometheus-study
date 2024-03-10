@@ -1,22 +1,30 @@
 package internal
 
 import (
+	"strconv"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 )
 
+// this file was based on https://github.com/ansrivas/fiberprometheus
+
 type PrometheusInstance struct {
-	requestsTotal    *prometheus.CounterVec
-	requestsInFlight *prometheus.GaugeVec
-	url              string
+	requestsTotal     *prometheus.CounterVec
+	requestsInFlight  *prometheus.GaugeVec
+	APITriggersMetric *prometheus.CounterVec
+	url               string
 }
+
+var Prometheus *PrometheusInstance
 
 func StartPrometheus() *PrometheusInstance {
 	constLabels := prometheus.Labels{
 		"app": "fiber-prometheus-demo",
 	}
 
+	// this metric will store all requests sent to the server. Use this to get the rate of requests per minute or second
 	requests_total_counter := promauto.NewCounterVec(
 		prometheus.CounterOpts{
 			Name:        prometheus.BuildFQName("my_go_project", "api", "requests_total"),
@@ -26,6 +34,7 @@ func StartPrometheus() *PrometheusInstance {
 		[]string{"status_code", "method", "path"},
 	)
 
+	// this metric will count how many requests are being processed at a specific instant
 	requests_in_flight_gauge := promauto.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name:        prometheus.BuildFQName("my_go_project", "api", "requests_in_flight_total"),
@@ -35,19 +44,52 @@ func StartPrometheus() *PrometheusInstance {
 		[]string{"method"},
 	)
 
-	return &PrometheusInstance{
-		requestsTotal:    requests_total_counter,
-		requestsInFlight: requests_in_flight_gauge,
-		url:              "/metrics",
+	// this metric will count how many requests were sent to the trigger XXX messag endpoints in api/metricstesting_handlers.go
+	// tbh, this one isn't that useful like this, but I could prolly use something like this to measure how much a specific function is called.
+	// maybe if it's a heavy function that's constantly being called, we could evaluate taking it to AWS Lambda for example?
+	some_metric_counter := promauto.NewCounterVec(
+		prometheus.CounterOpts{
+			Name:        prometheus.BuildFQName("my_go_project", "api", "some_metric"),
+			Help:        "Some metric",
+			ConstLabels: constLabels,
+		},
+		[]string{"triggered_handler"},
+	)
+
+	Prometheus = &PrometheusInstance{
+		requestsTotal:     requests_total_counter,
+		requestsInFlight:  requests_in_flight_gauge,
+		APITriggersMetric: some_metric_counter,
+		url:               "/metrics",
 	}
+
+	return Prometheus
 }
 
+// this is the middleware that will run request-based metrics
 func (p *PrometheusInstance) Middleware(c *fiber.Ctx) error {
 	method := c.Route().Method
-	// path := c.Route().Path
+	path := c.Route().Path
+
 	p.requestsInFlight.WithLabelValues(method).Inc()
 	defer func() {
 		p.requestsInFlight.WithLabelValues(method).Dec()
 	}()
-	return c.Next()
+
+	var status int
+
+	err := c.Next()
+	if err != nil {
+		if e, ok := err.(*fiber.Error); ok {
+			// Get correct error code from fiber.Error type
+			status = e.Code
+		}
+	} else {
+		status = c.Response().StatusCode()
+	}
+
+	statusCodeString := strconv.Itoa(status)
+	p.requestsTotal.WithLabelValues(statusCodeString, method, path).Inc()
+
+	return err
 }

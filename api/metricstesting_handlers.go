@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fiber-prometheus-demo/internal"
 	"fiber-prometheus-demo/utils"
 	"fmt"
 	"math/rand"
@@ -34,29 +35,36 @@ func PostEchoHandler(c *fiber.Ctx) error {
 }
 
 func TriggerOkResponseHandler(c *fiber.Ctx) error {
+	internal.Prometheus.APITriggersMetric.WithLabelValues("trigger_ok").Inc()
 	return utils.OkResponse(c, "Triggered OK response", fiber.Map{})
 }
 
 func TriggerCreatedResponseHandler(c *fiber.Ctx) error {
+	internal.Prometheus.APITriggersMetric.WithLabelValues("trigger_created").Inc()
 	return utils.CreatedResponse(c, "Triggered Created response", fiber.Map{})
 }
 
 func TriggerBadRequestResponseHandler(c *fiber.Ctx) error {
+	internal.Prometheus.APITriggersMetric.WithLabelValues("trigger_bad_request").Inc()
 	return utils.BadRequestResponse(c, "Triggered Bad Request response", nil)
 }
 
 func TriggerUnauthorizedResponseHandler(c *fiber.Ctx) error {
+	internal.Prometheus.APITriggersMetric.WithLabelValues("trigger_unauthorized").Inc()
 	return utils.UnauthorizedResponse(c, "Triggered Unauthorized response", nil)
 }
 
 func TriggerForbiddenResponseHandler(c *fiber.Ctx) error {
+	internal.Prometheus.APITriggersMetric.WithLabelValues("trigger_forbidden").Inc()
 	return utils.ForbiddenResponse(c, "Triggered Forbidden response", nil)
 }
 
 func TriggerNotFoundResponseHandler(c *fiber.Ctx) error {
+	internal.Prometheus.APITriggersMetric.WithLabelValues("trigger_not_found").Inc()
 	return utils.NotFoundResponse(c, "Triggered Not Found response", nil)
 }
 
 func TriggerInternalServerErrorResponseHandler(c *fiber.Ctx) error {
+	internal.Prometheus.APITriggersMetric.WithLabelValues("trigger_internal_server_error").Inc()
 	return utils.InternalServerErrorResponse(c, "Triggered Internal Server Error response", nil)
 }
