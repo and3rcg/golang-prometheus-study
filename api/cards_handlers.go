@@ -23,7 +23,7 @@ func AddCardHandler(c *fiber.Ctx) error {
 		return utils.InternalServerErrorResponse(c, "AddCardHandler: Failed to add card", err)
 	}
 
-	return utils.OkResponse(c, "Card added successfully", fiber.Map{})
+	return utils.CreatedResponse(c, "Card added successfully", fiber.Map{})
 }
 
 func AddMultipleCardsHandler(c *fiber.Ctx) error {
@@ -38,7 +38,7 @@ func AddMultipleCardsHandler(c *fiber.Ctx) error {
 		return utils.InternalServerErrorResponse(c, "AddMultipleCardsHandler: Failed to add cards", err)
 	}
 
-	return utils.OkResponse(c, "Cards added successfully", fiber.Map{})
+	return utils.CreatedResponse(c, "Cards added successfully", fiber.Map{})
 }
 
 func ListCardsHandler(c *fiber.Ctx) error {
