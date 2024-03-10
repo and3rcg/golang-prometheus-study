@@ -1,9 +1,14 @@
 package models
 
+import "gorm.io/gorm"
+
 type CardModel struct {
-	ID        int    `json:"id"`
+	gorm.Model
+
 	Name      string `json:"name"`
-	Condition string `json:"condition"`
-	Amount    int    `json:"amount"`
-	PackName  string `json:"pack_name"`
+	Attribute string `json:"attribute"`
+	Type      string `json:"type"`
+	Level     int    `json:"level"`
+	Attack    int    `json:"attack"`
+	Defense   int    `json:"defense"`
 }

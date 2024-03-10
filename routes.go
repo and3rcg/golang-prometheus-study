@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fiber-prometheus-demo/api"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
@@ -21,5 +23,7 @@ func SetupRoutes(app *fiber.App) {
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})
+
+	api.StartAPIRoutes(app)
 
 }

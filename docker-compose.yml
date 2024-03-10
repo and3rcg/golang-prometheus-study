@@ -1,32 +1,45 @@
 version: "3.8"
 
 services:
+  db:
+    image: postgres:14-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=myPassword1234
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+
   # Compose file obtained from https://github.com/cosmtrek/air#installation-and-usage-for-docker-users-who-dont-want-to-use-air-image
-  web:
-    build:
-      context: .
-      # Correct the path to your Dockerfile
-      dockerfile: Dockerfile
-    ports:
-      - 4000:4000
-    # Important to bind/mount your codebase dir to /app dir for live reload
-    volumes:
-      - ./:/app
-  
-  prometheus:
-    image: prom/prometheus
-    user: root
-    restart: unless-stopped
-    volumes:
-      - ./prometheus/config:/etc/prometheus  # make sure the right hand side path is the same as in the --config.file flag
-      - ./prometheus/data:/prometheus  # make sure the right hand side path is the same as in the --storage.tsdb.path flag
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-    ports:
-      - 9090:9090
-    depends_on:
-      - web
+  # web:
+  #   build:
+  #     context: .
+  #     # Correct the path to your Dockerfile
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 4000:4000
+  #   # Important to bind/mount your codebase dir to /app dir for live reload
+  #   volumes:
+  #     - ./:/app
+  #   depends_on:
+  #     - db
+
+  # prometheus:
+  #   image: prom/prometheus
+  #   user: root
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./deploy/prometheus.yml:/etc/prometheus/prometheus.yml  # make sure the right hand side path is the same as in the --config.file flag
+  #     - prometheus_data:/prometheus  # make sure the right hand side path is the same as in the --storage.tsdb.path flag
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #     - '--storage.tsdb.path=/prometheus'
+  #   ports:
+  #     - 9090:9090
+  #   depends_on:
+  #     - web
   
   # portainer:
   #   image: portainer/portainer-ce:latest
@@ -37,14 +50,17 @@ services:
   #     - /var/run/docker.sock:/var/run/docker.sock
   #   restart: unless-stopped
 
-  grafana:
-    image: grafana/grafana:10.0.11
-    # container_name: grafana
-    # hostname: grafana
-    environment:
-      -  GF_SECURITY_ADMIN_PASSWORD=admin
-    restart: unless-stopped
-    ports:
-      - 3000:3000
-    depends_on:
-      - prometheus
+  # grafana:
+  #   image: grafana/grafana:10.0.11
+  #   environment:
+  #     -  GF_SECURITY_ADMIN_PASSWORD=admin
+  #   restart: unless-stopped
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - prometheus
+
+volumes:
+  postgres_data:
+  prometheus_data:
+  # portainer_data:
