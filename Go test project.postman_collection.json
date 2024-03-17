@@ -1,0 +1,337 @@
+{
+	"info": {
+		"_postman_id": "92d22635-5697-4767-aea5-cf368ce9fd5f",
+		"name": "Go Teste DevOps",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20021237",
+		"_collection_link": "https://dark-satellite-411915.postman.co/workspace/meus-projetos~68ce2ed8-8466-4124-95a2-33dd23fa83d6/collection/20021237-92d22635-5697-4767-aea5-cf368ce9fd5f?action=share&source=collection_link&creator=20021237"
+	},
+	"item": [
+		{
+			"name": "metrics_testing",
+			"item": [
+				{
+					"name": "/echo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"beware of the xok\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/metrics_testing/echo",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"metrics_testing",
+								"echo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/random_sleep",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/metrics_testing/random_sleep",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"metrics_testing",
+								"random_sleep"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/trigger/ok",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/metrics_testing/trigger/ok",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"metrics_testing",
+								"trigger",
+								"ok"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cards",
+			"item": [
+				{
+					"name": "/cards",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Sky Striker Ace - Raye\",\r\n    \"attribute\": \"Dark\",\r\n    \"type\": \"Warrior/Effect\",\r\n    \"level\": 4,\r\n    \"attack\": 1500,\r\n    \"defense\": 1500\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/cards",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/cards/multiple",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"name\": \"Slifer the Sky Dragon\",\r\n        \"attribute\": \"DIVINE\",\r\n        \"type\": \"Divine Beast\",\r\n        \"level\": 10,\r\n        \"attack\": 5000,\r\n        \"defense\": 5000\r\n    },\r\n    {\r\n        \"name\": \"The Winged Dragon of Ra\",\r\n        \"attribute\": \"DIVINE\",\r\n        \"type\": \"Divine Beast\",\r\n        \"level\": 10,\r\n        \"attack\": null,\r\n        \"defense\": null\r\n    },\r\n    {\r\n        \"name\": \"Obelisk the Tormentor\",\r\n        \"attribute\": \"DIVINE\",\r\n        \"type\": \"Divine Beast\",\r\n        \"level\": 10,\r\n        \"attack\": 4000,\r\n        \"defense\": 4000\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/cards/multiple",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"cards",
+								"multiple"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/cards",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/cards",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/cards/:card_id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/cards/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"cards",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/cards/:card_id Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Blue-eyes White Dragon\",\r\n    \"attribute\": \"LIGHT\",\r\n    \"level\": 8,\r\n    \"attack\": 3000,\r\n    \"defense\": 2500,\r\n    \"type\": \"Dragon\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/cards/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"cards",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/cards/:card_id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Blue-eyes White Dragon\",\r\n    \"attribute\": \"LIGHT\",\r\n    \"level\": 8,\r\n    \"attack\": 3000,\r\n    \"defense\": 2500,\r\n    \"type\": \"Dragon\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/cards/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"cards",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/metrics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/metrics",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"metrics"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://127.0.0.1:4000",
+			"type": "string"
+		}
+	]
+}
